@@ -13,6 +13,8 @@
 > **This is a fork of [colinhartigan/valorant-rpc](https://github.com/colinhartigan/valorant-rpc).**
 > All credit for the original project goes to Colin Hartigan. This fork fixes the rich presence so it works with current versions of VALORANT.
 
+> **Join the [Discord Server](https://discord.gg/Q4c98dKD82) to get help with any issues running the program or to report it needing a fix**
+
   <ol>  
     <li><a href="#about">About</a></li>
     <li><a href="#whats-fixed">What's Fixed</a></li>
