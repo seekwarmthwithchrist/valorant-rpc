@@ -29,6 +29,7 @@ class Loader:
                 "snowball": "Snowball Fight",
                 "swiftplay": "Swiftplay",
                 "hurm": "Team Deathmatch",
+                "premier": "Premier",
                 "": "Custom",
             },
             "team_aliases": {
@@ -65,7 +66,8 @@ class Loader:
                 "uuid": agent["uuid"],
                 "display_name": agent["displayName"]["en-US"],
                 "display_name_localized": agent["displayName"][Localizer.locale],
-                "internal_name": agent["developerName"]
+                "internal_name": agent["developerName"],
+                "image": agent["displayIcon"],
             })
 
         for game_map in maps:
@@ -74,7 +76,8 @@ class Loader:
                 "display_name": game_map["displayName"]["en-US"],
                 "display_name_localized": game_map["displayName"][Localizer.locale],
                 "path": game_map["mapUrl"],
-                "internal_name": game_map["mapUrl"].split("/")[-1]
+                "internal_name": game_map["mapUrl"].split("/")[-1],
+                "image": game_map["listViewIconTall"] or game_map["splash"] or game_map["listViewIcon"],
             })
 
         for mode in modes:
@@ -89,6 +92,7 @@ class Loader:
                 "display_name": tier["tierName"]["en-US"],
                 "display_name_localized": tier["tierName"][Localizer.locale],
                 "id": tier["tier"],
+                "image": tier["largeIcon"] or tier["smallIcon"],
             })
 
         return content_data

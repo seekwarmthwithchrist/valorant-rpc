@@ -8,3 +8,4 @@ installer/
 RiotUser.cs
 /venv/
 .idea
+.venv/

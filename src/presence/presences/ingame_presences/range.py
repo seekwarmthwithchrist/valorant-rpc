@@ -17,7 +17,7 @@ class Range_Session:
         data["MapID"] = "/Game/Maps/Poveglia/Range" # hotfix :)
         self.start_time = time.time()
         self.map_name, self.mode_name = Utilities.fetch_map_data(data, content_data)
-        self.map_image = "splash_range"
+        self.map_image = Utilities.fetch_map_image(data["MapID"], content_data)
         self.small_image = "mode_unrated"
         self.small_text = None
 

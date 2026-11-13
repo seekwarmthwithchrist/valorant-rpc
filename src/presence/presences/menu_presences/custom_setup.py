@@ -20,7 +20,7 @@ def presence(rpc,client=None,data=None,content_data=None,config=None):
         rpc.update(
             state=party_state,
             details=Localizer.get_localized_text("presences","client_states","custom_setup"),
-            large_image=f"splash_{game_map.lower()}",
+            large_image=Utilities.fetch_map_image(data["MapID"],content_data),
             large_text=map_name,
             small_image=team,
             small_text=team_patched,

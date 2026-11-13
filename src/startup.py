@@ -2,6 +2,7 @@ from InquirerPy.utils import color_print
 import sys, psutil, time, cursor, valclient, ctypes, traceback, os, subprocess
 
 from .utilities.killable_thread import Thread
+from .utilities.client import Client
 from .utilities.config.app_config import Config
 from .utilities.config.modify_config import Config_Editor
 from .utilities.processes import Processes
@@ -109,7 +110,7 @@ class Startup:
 
     def setup_client(self):
         try:
-            self.client = valclient.Client(region=Localizer.get_config_value("region",0))
+            self.client = Client(region=Localizer.get_config_value("region",0))
             self.client.activate()
             self.presence.client = self.client
         except:

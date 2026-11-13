@@ -5,23 +5,26 @@
 |___/_/ |_/____/\____/_/|_/_/ |_/_/|_/ /_/     /_/ / .__/\__/ 
                                                   /_/         
 ```
-[![Discord][discord-shield]][discord-url]
 [![Stars][stars-shield]][stars-url]
 [![Releases][releases-shield]][releases-url]
-[![Kofi][kofi-shield]][kofi-url]
 [![Language][language-shield]][language-url]
 [![License][license-shield]][license-url]
 
+> **This is a fork of [colinhartigan/valorant-rpc](https://github.com/colinhartigan/valorant-rpc).**
+> All credit for the original project goes to Colin Hartigan. This fork fixes the rich presence so it works with current versions of VALORANT.
+
   <ol>  
-    <li><a href="#about">About</li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#whats-fixed">What's Fixed</a></li>
+    <li><a href="#installation">Installation</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#support">Support</a></li>
+    <li><a href="#credits">Credits</a></li>
     <li><a href="#disclaimer">Disclaimer</a></li>
   </ol>
  
  
 ## About
-
 
  Valorant RPC (Rich Presence) allows you to show in-game details such as the current score in your Discord Profile! Additional features include showing current map, agent, idle status, etc.
 
@@ -34,9 +37,35 @@
 
  
  
+## What's Fixed
+
+ The original project stopped working after Riot changed how VALORANT reports player presence, and newer maps, agents and ranks had no images. These are all the fixes made in this fork:
+
+### Presence detection
+ - **Nested presence data** – Riot moved most presence fields (`sessionLoopState`, `partySize`, `queueId`, match/party info, etc.) out of the top level and into nested objects: `matchPresenceData`, `partyPresenceData`, `playerPresenceData` and `premierPresenceData`. The app was reading the old locations, so it could no longer tell whether you were in the menus, in queue or in a match.
+ - **New client wrapper** – added [`src/utilities/client.py`](src/utilities/client.py), which extends `valclient.Client` and copies those nested fields back to the top level whenever presence is fetched. Existing top-level values are never overwritten, so the rest of the app works without changes.
+ - **Startup uses the patched client** – [`src/startup.py`](src/startup.py) now creates the patched `Client` instead of `valclient.Client`.
+
+### Images
+ - **Map images** – maps used hardcoded Discord asset keys like `splash_ascent`, which don't exist for newer maps. Map images are now loaded from valorant-api (`listViewIconTall`, falling back to `splash`, then `listViewIcon`), with the VALORANT logo as a last resort.
+ - **Agent images** – agents used asset keys like `agent_jett`, so newer agents had no picture. Agent icons are now loaded from valorant-api (`displayIcon`).
+ - **Rank images** – rank icons are now loaded from valorant-api (`largeIcon`, falling back to `smallIcon`) instead of `rank_<id>` asset keys.
+ - **The Range and custom game setup** – both presences now use the same map image lookup instead of hardcoded `splash_range` / `splash_<map>` keys.
+ - The old Discord asset keys are still used as a fallback if valorant-api doesn't return an image.
+
+### Game modes
+ - **Premier** – added Premier to the list of game modes so it displays correctly.
+
+### Other
+ - **Startup banner** – the ASCII banner in `main.py` used an f-string full of backslashes, which caused invalid escape sequence warnings on newer Python versions. It's now a raw string.
+ - **`.gitignore`** – added `.venv/`.
+ - **Fork links** – the GitHub button, update checker, tray icon download and join-link redirect now point to this fork instead of the original repo.
+
+ 
+ 
 ## Installation
 
- - Download the latest [release](https://github.com/colinhartigan/valorant-rpc/releases/latest/download/valorant-rpc.exe) and run it.
+ - Download the latest [release](https://github.com/seekwarmthwithchrist/valorant-rpc/releases/latest/download/valorant-rpc.exe) and run it.
 
  
  
@@ -50,9 +79,16 @@
  
 ## Support
 
- Either make an issue or:  
+ Found a bug? [Open an issue](https://github.com/seekwarmthwithchrist/valorant-rpc/issues) on this fork.
 
-[![Discord Banner 2][discord-banner]][discord-url]
+ Please don't report issues with this fork to the original project.
+ 
+ 
+ 
+## Credits
+
+ - **[Colin Hartigan](https://github.com/colinhartigan)** – original author of [valorant-rpc](https://github.com/colinhartigan/valorant-rpc) and [valclient](https://github.com/colinhartigan/valclient)
+ - **[seekwarmthwithchrist](https://github.com/seekwarmthwithchrist)** – fixes for current VALORANT versions
  
  
  
@@ -64,22 +100,14 @@
  
  
  
-[discord-shield]: https://img.shields.io/discord/860288779558715402?color=7289da&label=Support&logo=discord&logoColor=7289da&style=for-the-badge
-[discord-url]: https://discord.gg/uGuswsZwAT
-[discord-banner]: https://discordapp.com/api/guilds/860288779558715402/widget.png?style=banner2
-[license-shield]: https://img.shields.io/github/license/colinhartigan/valorant-rpc?style=for-the-badge
-[license-url]: https://github.com/colinhartigan/valorant-rpc/blob/v3/LICENSE.txt
+[license-shield]: https://img.shields.io/github/license/seekwarmthwithchrist/valorant-rpc?style=for-the-badge
+[license-url]: https://github.com/seekwarmthwithchrist/valorant-rpc/blob/v3/LICENSE.txt
 
-[stars-shield]: https://img.shields.io/github/stars/colinhartigan/valorant-rpc?logo=github&style=for-the-badge
-[stars-url]: https://github.com/colinhartigan/valorant-rpc/stargazers
+[stars-shield]: https://img.shields.io/github/stars/seekwarmthwithchrist/valorant-rpc?logo=github&style=for-the-badge
+[stars-url]: https://github.com/seekwarmthwithchrist/valorant-rpc/stargazers
 
-[releases-shield]: https://img.shields.io/github/downloads/colinhartigan/valorant-rpc/total?style=for-the-badge
-[releases-url]: https://github.com/colinhartigan/valorant-rpc/releases
+[releases-shield]: https://img.shields.io/github/downloads/seekwarmthwithchrist/valorant-rpc/total?style=for-the-badge
+[releases-url]: https://github.com/seekwarmthwithchrist/valorant-rpc/releases
 
-[language-shield]: https://img.shields.io/github/languages/top/colinhartigan/valorant-rpc?logo=python&logoColor=yellow&style=for-the-badge
+[language-shield]: https://img.shields.io/github/languages/top/seekwarmthwithchrist/valorant-rpc?logo=python&logoColor=yellow&style=for-the-badge
 [language-url]: https://www.python.org/
-
-[kofi-shield]: https://img.shields.io/badge/Ko--fi-F16061?style=for-the-badge&logo=ko-fi&logoColor=white
-[kofi-url]: https://ko-fi.com/colinh
-
-
